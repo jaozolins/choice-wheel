@@ -14,18 +14,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen text-white relative overflow-x-hidden">
-        {/* Jungle photo background */}
+        {/* Tropical jungle background */}
         <div
           className="fixed inset-0 -z-10"
           style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80")`,
+            backgroundImage: `url("https://images.unsplash.com/photo-1440342359743-84fcb8c21c7c?auto=format&fit=crop&w=1920&q=80")`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         />
         {/* Dark overlay so text is readable */}
-        <div className="fixed inset-0 -z-10 bg-black/40" />
+        <div className="fixed inset-0 -z-10 bg-black/50" />
         {children}
       </body>
     </html>

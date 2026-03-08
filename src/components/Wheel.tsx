@@ -63,7 +63,7 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
       ctx.arc(center, center, radius, 0, Math.PI * 2);
       ctx.fill();
       ctx.fillStyle = "#FFD700";
-      ctx.font = "bold 28px sans-serif";
+      ctx.font = "800 28px Nunito, sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("Add choices!", center, center);
       return;
@@ -91,7 +91,7 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
       ctx.translate(center, center);
       ctx.rotate(startAngle + sliceAngle / 2);
       ctx.fillStyle = "#fff";
-      ctx.font = "bold 22px sans-serif";
+      ctx.font = "800 22px Nunito, sans-serif";
       ctx.textAlign = "center";
       ctx.strokeStyle = "rgba(0,0,0,0.6)";
       ctx.lineWidth = 4;
