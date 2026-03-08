@@ -15,18 +15,19 @@ export default function Home() {
   const [winner, setWinner] = useState<string | null>(null);
 
   return (
-    <main className="min-h-screen flex flex-col items-center p-4 md:p-6 gap-6">
+    <main className="min-h-screen flex flex-col items-center justify-center p-4 md:p-6 gap-10 md:gap-14">
       <h1
-        className="text-4xl md:text-5xl font-bold text-center drop-shadow-lg"
+        className="text-4xl md:text-6xl font-bold text-center drop-shadow-lg"
         style={{
           color: "#FFD700",
-          textShadow: "2px 2px 0 #2d5a1e, 4px 4px 8px rgba(0,0,0,0.5)",
+          textShadow: "2px 2px 0 #2d5a1e, 4px 4px 8px rgba(0,0,0,0.7)",
         }}
       >
-        Jungle Wheel
+        Choice Wheel
       </h1>
 
-      <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start gap-6 md:gap-8 w-full max-w-7xl">
+      {/* Desktop: side by side, panel vertically centered. Mobile: stacked */}
+      <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-10 w-full max-w-7xl">
         <div className="w-full lg:w-80 shrink-0">
           <ChoicePanel choices={choices} setChoices={setChoices} />
         </div>
