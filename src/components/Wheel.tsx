@@ -2,17 +2,20 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 
+// Jungle-themed colors: rich greens, earthy browns, tropical accents
 const COLORS = [
-  "#E63946", // red
-  "#F4A261", // orange
-  "#E9C46A", // yellow
-  "#2A9D8F", // teal
-  "#264653", // dark blue
-  "#6A994E", // jungle green
-  "#BC6C25", // brown
-  "#DDA15E", // tan
-  "#606C38", // olive
-  "#9B2226", // dark red
+  "#2D6A4F", // deep jungle green
+  "#D4A373", // warm sandy brown
+  "#40916C", // emerald green
+  "#BC6C25", // rich bark brown
+  "#52B788", // bright tropical green
+  "#DDA15E", // golden amber
+  "#1B4332", // dark forest green
+  "#E9C46A", // tropical yellow
+  "#74C69D", // light jungle green
+  "#606C38", // olive green
+  "#A7C957", // lime leaf
+  "#8B4513", // saddle brown
 ];
 
 interface WheelProps {
@@ -31,14 +34,14 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
 
   const internalSize = 750;
   const center = internalSize / 2;
-  const radius = center - 10;
+  const outerRing = 18;
+  const radius = center - outerRing - 4;
 
   // Responsive sizing
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
-        // On mobile cap at container width minus padding, on desktop go big
         const maxSize = Math.min(containerWidth - 20, 700);
         setDisplaySize(Math.max(280, maxSize));
       }
@@ -57,10 +60,31 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
 
     ctx.clearRect(0, 0, internalSize, internalSize);
 
+    // Outer wooden ring
+    ctx.beginPath();
+    ctx.arc(center, center, center - 2, 0, Math.PI * 2);
+    const woodGrad = ctx.createRadialGradient(center, center, radius, center, center, center);
+    woodGrad.addColorStop(0, "#8B5E3C");
+    woodGrad.addColorStop(0.4, "#6B3A2A");
+    woodGrad.addColorStop(0.7, "#8B5E3C");
+    woodGrad.addColorStop(1, "#5C3317");
+    ctx.fillStyle = woodGrad;
+    ctx.fill();
+    ctx.strokeStyle = "#3E1F0D";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Inner ring highlight
+    ctx.beginPath();
+    ctx.arc(center, center, radius + 2, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255,215,0,0.5)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
     if (choices.length === 0) {
-      ctx.fillStyle = "#2d5a1e";
       ctx.beginPath();
       ctx.arc(center, center, radius, 0, Math.PI * 2);
+      ctx.fillStyle = "#1B4332";
       ctx.fill();
       ctx.fillStyle = "#FFD700";
       ctx.font = "800 28px Nunito, sans-serif";
@@ -75,46 +99,72 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
       const startAngle = rotation + i * sliceAngle;
       const endAngle = startAngle + sliceAngle;
 
-      // Draw slice
+      // Draw slice with gradient
       ctx.beginPath();
       ctx.moveTo(center, center);
       ctx.arc(center, center, radius, startAngle, endAngle);
       ctx.closePath();
-      ctx.fillStyle = COLORS[i % COLORS.length];
+
+      const baseColor = COLORS[i % COLORS.length];
+      ctx.fillStyle = baseColor;
       ctx.fill();
-      ctx.strokeStyle = "rgba(255,255,255,0.4)";
-      ctx.lineWidth = 3;
+
+      // Slice border
+      ctx.strokeStyle = "rgba(0,0,0,0.25)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Lighter inner edge for depth
+      ctx.beginPath();
+      ctx.moveTo(center, center);
+      ctx.arc(center, center, radius, startAngle, endAngle);
+      ctx.closePath();
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.lineWidth = 1;
       ctx.stroke();
 
       // Draw text
       ctx.save();
       ctx.translate(center, center);
       ctx.rotate(startAngle + sliceAngle / 2);
-      ctx.fillStyle = "#fff";
-      ctx.font = "800 22px Nunito, sans-serif";
+      ctx.font = "800 20px Nunito, sans-serif";
       ctx.textAlign = "center";
-      ctx.strokeStyle = "rgba(0,0,0,0.6)";
-      ctx.lineWidth = 4;
       const textX = radius * 0.6;
       const label = choice.length > 14 ? choice.slice(0, 14) + "..." : choice;
-      ctx.strokeText(label, textX, 7);
+
+      // Text shadow for readability
+      ctx.fillStyle = "rgba(0,0,0,0.5)";
+      ctx.fillText(label, textX + 1, 8);
+      // Main text
+      ctx.fillStyle = "#fff";
       ctx.fillText(label, textX, 7);
       ctx.restore();
     });
 
-    // Center circle with jungle feel
+    // Decorative ring between slices and center
     ctx.beginPath();
-    ctx.arc(center, center, 28, 0, Math.PI * 2);
-    ctx.fillStyle = "#FFD700";
-    ctx.fill();
-    ctx.strokeStyle = "#8B4513";
-    ctx.lineWidth = 4;
+    ctx.arc(center, center, 42, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255,215,0,0.3)";
+    ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Inner dot
+    // Center hub - wooden look
+    ctx.beginPath();
+    ctx.arc(center, center, 32, 0, Math.PI * 2);
+    const hubGrad = ctx.createRadialGradient(center - 5, center - 5, 2, center, center, 32);
+    hubGrad.addColorStop(0, "#FFE066");
+    hubGrad.addColorStop(0.5, "#FFD700");
+    hubGrad.addColorStop(1, "#B8860B");
+    ctx.fillStyle = hubGrad;
+    ctx.fill();
+    ctx.strokeStyle = "#8B6914";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Center dot
     ctx.beginPath();
     ctx.arc(center, center, 8, 0, Math.PI * 2);
-    ctx.fillStyle = "#8B4513";
+    ctx.fillStyle = "#5C3317";
     ctx.fill();
   }, [choices, rotation]);
 
@@ -152,15 +202,15 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
   return (
     <div ref={containerRef} className="flex flex-col items-center gap-4 w-full">
       <div className="relative" style={{ width: displaySize, height: displaySize }}>
-        {/* Pointer triangle */}
+        {/* Pointer triangle - leaf-shaped */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 z-10">
           <div
             className="w-0 h-0"
             style={{
               borderLeft: "18px solid transparent",
               borderRight: "18px solid transparent",
-              borderTop: "36px solid #FFD700",
-              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
+              borderTop: "40px solid #FFD700",
+              filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.5))",
             }}
           />
         </div>
@@ -168,11 +218,10 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
           ref={canvasRef}
           width={internalSize}
           height={internalSize}
-          className="rounded-full"
           style={{
             width: displaySize,
             height: displaySize,
-            filter: "drop-shadow(0 8px 24px rgba(0,0,0,0.4))",
+            filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.5))",
           }}
         />
       </div>
@@ -182,10 +231,11 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
         disabled={spinning || choices.length < 2}
         className="px-10 py-4 disabled:opacity-40 text-2xl rounded-full transition-all active:scale-95"
         style={{
-          background: "linear-gradient(180deg, #FFD700 0%, #FFA500 100%)",
+          background: "linear-gradient(180deg, #FFD700 0%, #B8860B 100%)",
           color: "#3d2000",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3)",
-          border: "3px solid #8B4513",
+          boxShadow: "0 4px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)",
+          border: "3px solid #5C3317",
+          fontWeight: 800,
         }}
       >
         {spinning ? "Spinning..." : "SPIN!"}
