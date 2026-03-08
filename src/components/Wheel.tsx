@@ -27,7 +27,7 @@ export default function Wheel({ choices }: WheelProps) {
   const animationRef = useRef<number>(0);
   const velocityRef = useRef(0);
 
-  const size = 500;
+  const size = 650;
   const center = size / 2;
   const radius = center - 10;
 
@@ -74,7 +74,7 @@ export default function Wheel({ choices }: WheelProps) {
       ctx.translate(center, center);
       ctx.rotate(startAngle + sliceAngle / 2);
       ctx.fillStyle = "#fff";
-      ctx.font = "bold 16px sans-serif";
+      ctx.font = "bold 18px sans-serif";
       ctx.textAlign = "center";
       ctx.strokeStyle = "#000";
       ctx.lineWidth = 3;
