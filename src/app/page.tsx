@@ -6,12 +6,7 @@ import ChoicePanel from "@/components/ChoicePanel";
 import WinnerPopup from "@/components/WinnerPopup";
 
 export default function Home() {
-  const [choices, setChoices] = useState<string[]>([
-    "Pizza",
-    "Tacos",
-    "Burgers",
-    "Sushi",
-  ]);
+  const [choices, setChoices] = useState<string[]>([]);
   const [winner, setWinner] = useState<string | null>(null);
 
   return (
