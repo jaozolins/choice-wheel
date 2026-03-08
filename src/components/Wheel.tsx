@@ -27,7 +27,7 @@ export default function Wheel({ choices }: WheelProps) {
   const animationRef = useRef<number>(0);
   const velocityRef = useRef(0);
 
-  const size = 650;
+  const size = 750;
   const center = size / 2;
   const radius = center - 10;
 
