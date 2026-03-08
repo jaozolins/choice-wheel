@@ -89,7 +89,7 @@ export default function ChoicePanel({ choices, setChoices }: ChoicePanelProps) {
 
       {/* Choices list */}
       {choices.length > 0 && (
-        <ul className="space-y-2 max-h-48 overflow-y-auto">
+        <ul className="space-y-2">
           {choices.map((choice, i) => (
             <li
               key={i}

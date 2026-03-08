@@ -37,13 +37,17 @@ export default function Wheel({ choices, onWinner }: WheelProps) {
   const outerRing = 18;
   const radius = center - outerRing - 4;
 
-  // Responsive sizing
+  // Responsive sizing — fit both width and height
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
-        const maxSize = Math.min(containerWidth - 20, 700);
-        setDisplaySize(Math.max(280, maxSize));
+        const vh = window.innerHeight;
+        // Reserve space for title + button + padding
+        const availableHeight = vh - 200;
+        const maxByWidth = containerWidth - 20;
+        const maxSize = Math.min(maxByWidth, availableHeight, 700);
+        setDisplaySize(Math.max(250, maxSize));
       }
     };
     updateSize();
