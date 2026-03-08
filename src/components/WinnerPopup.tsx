@@ -63,15 +63,8 @@ export default function WinnerPopup({ winner, onClose }: WinnerPopupProps) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <p
-          className="text-xl md:text-2xl mb-4"
-          style={{ color: "#a3b18a" }}
-        >
-          The jungle has chosen...
-        </p>
-
         <h2
-          className="text-5xl md:text-7xl font-bold mb-6 break-words"
+          className="text-5xl md:text-7xl font-bold mb-6 break-words mt-2"
           style={{
             color: "#FFD700",
             textShadow: "2px 2px 0 #8B4513, 0 0 30px rgba(255,215,0,0.4)",
